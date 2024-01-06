@@ -5,6 +5,7 @@ class Field:
     def __init__(self, value):
         self.value = value
 
+
     def __str__(self):
         return str(self.value)
 
@@ -20,20 +21,27 @@ class Phone(Field):
         super().__init__(value)
 
 
+    def __str__(self):
+        return str(self.value)
+
+
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
 
+
     def add_phone(self, phone):
         new_phone = Phone(phone)
         self.phones.append(new_phone)
+
 
     def remove_phone(self, phone):
         for p in self.phones:
             if p.value == phone:
                 self.phones.remove(p)
                 break
+
 
     def edit_phone(self, old_phone, new_phone):
         for p in self.phones:
@@ -42,6 +50,7 @@ class Record:
                 return
         raise ValueError("Phone number not found.")
 
+
     def find_phone(self, phone):
         for p in self.phones:
             if p.value == phone:
@@ -49,12 +58,19 @@ class Record:
         return None  # Повертає None, якщо номер не знайдено
 
 
+    def __str__(self):
+        phones_str = "; ".join(str(phone) for phone in self.phones)
+        return f"Contact name: {self.name}, phones: {phones_str}"
+
+
 class AddressBook(UserDict):
     def add_record(self, record):
         self.data[record.name.value] = record
 
+
     def find(self, name):
         return self.data.get(name)
+
 
     def delete(self, name):
         if name in self.data:
@@ -86,12 +102,12 @@ def main():
     john = book.find("John")
     john.edit_phone("1234567890", "1112223333")
 
-    print(john)  # Виведення: Contact name: John, phones: 1112223333; 5555555555
+    print(john)
 
     # Пошук конкретного телефону у записі John
     found_phone = john.find_phone("5555555555")
     if found_phone is not None:
-        print(f"{john.name}: {found_phone}")  # Виведення: 5555555555
+        print(f"{john.name}: {found_phone}")
     else:
         print(f"Phone number not found for {john.name}")
 
